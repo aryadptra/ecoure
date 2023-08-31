@@ -18,19 +18,14 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Home');
 });
 
 Route::get('/dashboard', function () {
     // return Inertia::render('Dashboard');
 
     if (Auth::user()->hasRole('admin')) {
-        return "Admin";
+        return Inertia::render('Dashboard');
     }
     return "User";
 })->middleware(['auth', 'verified'])->name('dashboard');
