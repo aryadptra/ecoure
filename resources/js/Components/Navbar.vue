@@ -34,18 +34,71 @@
                     </li>
                 </ul>
                 <div class="d-flex">
-                    <!-- Link Sign Up -->
-                    <a href="/signup" class="px-4 py-2 btn btn-primary">
-                        Daftar
-                    </a>
+                    <!-- Check if user is logged in -->
+                    <template v-if="isLoggedIn">
+                        <!-- Dropdown menu with user name -->
+                        <div class="dropdown">
+                            <a
+                                class="dropdown-toggle"
+                                href="#"
+                                role="button"
+                                id="userDropdown"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                style="text-decoration: none; color: inherit"
+                            >
+                                <img
+                                    class="avatar rounded-circle mx-2"
+                                    alt="Image placeholder"
+                                    :src="`https://ui-avatars.com/api/?name=${$page.props.auth.user.name}&amp;background=4e73df&amp;color=ffffff&amp;size=30`"
+                                />
+                                {{ $page.props.auth.user.name }}
+                            </a>
+                            <ul
+                                class="dropdown-menu"
+                                aria-labelledby="userDropdown"
+                            >
+                                <!-- Dropdown menu items -->
+                                <li>
+                                    <Link
+                                        class="dropdown-item"
+                                        :href="route('dashboard')"
+                                        >Dashboard</Link
+                                    >
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Settings</a
+                                    >
+                                </li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <a class="dropdown-item" href="#"
+                                        >Sign Out</a
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                    </template>
+                    <!-- If user is not logged in, show sign up and sign in buttons -->
+                    <template v-else>
+                        <!-- Link Sign Up -->
+                        <Link
+                            :href="route('register')"
+                            class="px-4 py-2 btn btn-primary"
+                        >
+                            Daftar
+                        </Link>
 
-                    <!-- Link Sign In -->
-                    <a
-                        href="/signin"
-                        class="px-4 py-2 btn btn-outline-secondary ms-2"
-                    >
-                        Masuk
-                    </a>
+                        <!-- Link Sign In -->
+                        <a
+                            href="/signin"
+                            class="px-4 py-2 btn btn-outline-secondary ms-2"
+                        >
+                            Masuk
+                        </a>
+                    </template>
                 </div>
             </div>
         </div>
@@ -54,11 +107,29 @@
 
 <script>
 import { Head, Link } from "@inertiajs/vue3";
+import { computed } from "vue"; // Import computed from Vue
 
 export default {
     components: {
         Head,
         Link,
+    },
+    setup() {
+        // Example computed properties for login status and user name
+        const isLoggedIn = computed(() => {
+            // Replace this with your actual login status logic
+            return true; // Set to true if user is logged in, false otherwise
+        });
+
+        const userName = computed(() => {
+            // Replace this with your actual user name logic
+            return "John Doe"; // Set to the user's name if logged in, empty string otherwise
+        });
+
+        return {
+            isLoggedIn,
+            userName,
+        };
     },
 };
 </script>

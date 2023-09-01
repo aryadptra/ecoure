@@ -2,7 +2,7 @@
     <Head title="Beranda" />
     <AppLayout>
         <section class="bg-body-tertiary">
-            <div class="container col-xxl-8 px-4 py-5">
+            <div class="container-fluid col-12 px-4 py-5">
                 <div
                     class="row flex-lg-row-reverse align-items-center g-5 py-5"
                 >
@@ -20,12 +20,13 @@
                         <h1
                             class="display-5 fw-bold text-body-emphasis lh-1 mb-3"
                         >
-                            Belajar dengan mengikuti tutorial <i>premium</i>
+                            Belajar dengan mengikuti tutorial
+                            <i>premium</i>
                         </h1>
                         <p class="lead">
                             Kuasai ilmu mendalam seperti Laravel, MySQL,
                             JavaScript, VueJS dan lain-lain untuk menjadi
-                            <b><i>Software Engineer</i></b>
+                            <b><i>Software Engineer</i></b> yang handal.
                         </p>
                         <div
                             class="d-grid gap-2 d-md-flex justify-content-md-start"
@@ -48,45 +49,41 @@
             </div>
             <div class="album py-5 bg-body-tertiary">
                 <div class="container">
-                    <h2>
-                        <i class="bi bi-journal-richtext"></i>Artikel Terbaru
+                    <h2 class="mb-3">
+                        <i class="bi bi-journal-richtext"></i>E-Book Terbaru
                     </h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                         <div class="col">
-                            <div class="card shadow-sm">
+                            <div class="card shadow-md">
                                 <img
                                     src="/assets/img/heroes.png"
                                     class="card-img-top"
                                     alt="Thumbnail"
                                 />
                                 <div class="card-body">
-                                    <h5 class="card-title">Judul Card</h5>
+                                    <h5 class="card-title">
+                                        E-Commerce Laravel 10, Inertia dan VueJS
+                                        3
+                                    </h5>
                                     <p class="card-text">
-                                        This is a wider card with supporting
-                                        text below as a natural lead-in to
-                                        additional content. This content is a
-                                        little bit longer.
+                                        Belajar membuat aplikasi
+                                        <i>e-commerce</i> dengan Laravel 10,
+                                        Inertia dan VueJS 3 yang terintegrasi
+                                        <i>payment gateway</i> Midtrans.
                                     </p>
                                     <div
                                         class="d-flex justify-content-between align-items-center"
                                     >
                                         <div class="btn-group">
-                                            <button
+                                            <a
+                                                href="#"
                                                 type="button"
-                                                class="btn btn-sm btn-outline-secondary"
+                                                class="btn btn-sm btn-outline-primary"
                                             >
-                                                View
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-sm btn-outline-secondary"
-                                            >
-                                                Edit
-                                            </button>
+                                                Beli Sekarang
+                                            </a>
                                         </div>
-                                        <small class="text-body-secondary"
-                                            >9 mins</small
-                                        >
+                                        <p class="text-black">Rp. 125.000</p>
                                     </div>
                                 </div>
                             </div>
