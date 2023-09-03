@@ -24,10 +24,6 @@
                             <label class="form-label" for="form3Example3"
                                 >Email</label
                             >
-                            <!-- v if errors -->
-                            <div v-if="errors.email" class="text-danger">
-                                {{ errors.email[0] }}
-                            </div>
                             <input
                                 type="email"
                                 id="form3Example3"
@@ -35,6 +31,10 @@
                                 placeholder="Masukkan alamat email"
                                 v-model="form.email"
                             />
+                            <!-- v if errors -->
+                            <div v-if="errors.email" class="text-danger">
+                                {{ errors.email }}
+                            </div>
                         </div>
 
                         <!-- Password input -->
@@ -42,12 +42,6 @@
                             <label class="form-label" for="form3Example4"
                                 >Password</label
                             >
-
-                            <!-- v if errors -->
-                            <div v-if="errors.password" class="text-danger">
-                                {{ errors.password[0] }}
-                            </div>
-
                             <input
                                 type="password"
                                 id="form3Example4"
@@ -55,6 +49,10 @@
                                 placeholder="Masukkan kata sandi"
                                 v-model="form.password"
                             />
+                            <!-- v if errors -->
+                            <div v-if="errors.password" class="text-danger">
+                                {{ errors.password }}
+                            </div>
                         </div>
 
                         <div

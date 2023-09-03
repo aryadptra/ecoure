@@ -83,21 +83,23 @@
                     </template>
                     <!-- If user is not logged in, show sign up and sign in buttons -->
                     <template v-else>
-                        <!-- Link Sign Up -->
-                        <Link
-                            :href="route('register')"
-                            class="px-4 py-2 btn btn-primary"
-                        >
-                            Daftar
-                        </Link>
+                        <div>
+                            <!-- Link Sign Up -->
+                            <Link
+                                :href="route('register')"
+                                class="px-4 py-2 btn btn-primary"
+                            >
+                                Daftar
+                            </Link>
 
-                        <!-- Link Sign In -->
-                        <a
-                            href="/signin"
-                            class="px-4 py-2 btn btn-outline-secondary ms-2"
-                        >
-                            Masuk
-                        </a>
+                            <!-- Link Sign In -->
+                            <Link
+                                :href="route('login')"
+                                class="px-4 py-2 btn btn-outline-secondary ms-2"
+                            >
+                                Masuk
+                            </Link>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -106,7 +108,7 @@
 </template>
 
 <script>
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue"; // Import computed from Vue
 
 export default {
@@ -114,21 +116,16 @@ export default {
         Head,
         Link,
     },
-    setup() {
-        // Example computed properties for login status and user name
-        const isLoggedIn = computed(() => {
-            // Replace this with your actual login status logic
-            return true; // Set to true if user is logged in, false otherwise
-        });
 
-        const userName = computed(() => {
-            // Replace this with your actual user name logic
-            return "John Doe"; // Set to the user's name if logged in, empty string otherwise
+    setup() {
+        const page = usePage();
+
+        const isLoggedIn = computed(() => {
+            return page.props.auth.user !== null;
         });
 
         return {
             isLoggedIn,
-            userName,
         };
     },
 };

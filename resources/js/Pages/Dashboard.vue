@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import DashboardLayout from "../Layouts/AppLayout.vue";
+import DashboardLayout from "../Layouts/DashboardLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
 
 export default {
