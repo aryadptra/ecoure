@@ -234,7 +234,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .bi {
     display: inline-block;
     width: 1rem;

@@ -4,17 +4,72 @@
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <DashboardTitle title="Categories" />
 
-            <!-- Button Add Data -->
-            <div class="d-flex justify-content-end mb-3">
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                >
-                    Add Category
-                </button>
+            <!-- Button add data and search data -->
+            <!-- <div class="d-flex justify-content-between mb-3">
+                <div class="input-group">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search"
+                        aria-label="Search"
+                        aria-describedby="button-addon2"
+                    />
+                    <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="button-addon2"
+                    >
+                        Search
+                    </button>
+                </div>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                    >
+                        Add Category
+                    </button>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-8 col-md-8">
+                    <form @submit.prevent="handleSearch">
+                        <div class="input-group mb-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Categories name"
+                                aria-label="Categories name"
+                                aria-describedby="basic-addon2"
+                                v-model="search"
+                            />
+                            <button
+                                class="btn btn-outline-secondary"
+                                type="submit"
+                                id="basic-addon2"
+                            >
+                                Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-4 col-md-4">
+                    <div class="d-flex justify-content-end">
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal"
+                        >
+                            Add Category
+                        </button>
+                    </div>
+                </div>
             </div>
+
             <!-- Table -->
             <div class="card">
                 <div class="card-body">
@@ -112,7 +167,7 @@
                 </div>
             </div>
 
-            <!-- Modal -->
+            <!-- Modal Add -->
             <div
                 class="modal fade"
                 id="exampleModal"
