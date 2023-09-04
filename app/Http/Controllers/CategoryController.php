@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -14,8 +15,10 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::when(request()->q, function ($categories) {
-            $categories = $categories->where('name', 'like', '%', request()->q, '%');
-        });
+            $categories = $categories->where('name', 'like', '%' . request()->q . '%');
+        })->latest()->paginate(5);
+
+        $categories->appends(request()->all());
 
         return Inertia::render('Admin/Categories/Index', [
             'categories' => $categories
@@ -58,9 +61,9 @@ class CategoryController extends Controller
         Category::create([
             'logo' => $logoName,
             'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'description' => $request->description,
         ]);
-
 
         return to_route('categories.index');
     }
@@ -78,6 +81,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        // define category
+        $category = Category::find($category->id);
+
         return Inertia::render('Admin/Categories/Edit', [
             'category' => $category
         ]);
@@ -89,23 +95,38 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'logo' => ['image'],
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string', 'max:255'],
+            'name' => ['string', 'max:255'],
+            'description' => ['string', 'max:255'],
         ], [
-            'logo.image' => 'The logo must be an image.',
-            'name.required' => 'The name field is required.',
             'name.string' => 'The name must be a string.',
             'name.max' => 'The name may not be greater than 255 characters.',
-            'description.required' => 'The description field is required.',
             'description.string' => 'The description must be a string.',
             'description.max' => 'The description may not be greater than 255 characters'
         ]);
 
-        // If there is logo upload, delete old logo and store new logo
+        // Jika ada logo yang diunggah, hapus logo lama dan simpan logo baru
         if ($request->hasFile('logo')) {
-            unlink(public_path('images/categories/' . $category->logo));
+            // validate
+            $request->validate([
+                'logo' => ['required', 'image'],
+                'name' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string', 'max:255'],
+            ], [
+                'logo.required' => 'The logo field is required.',
+                'logo.image' => 'The logo must be an image.',
+                'name.required' => 'The name field is required.',
+                'name.string' => 'The name must be a string.',
+                'name.max' => 'The name may not be greater than 255 characters.',
+                'description.required' => 'The description field is required.',
+                'description.string' => 'The description must be a string.',
+                'description.max' => 'The description may not be greater than 255 characters.',
+            ]);
 
+
+            // Hapus logo lama
+            if ($category->logo) {
+                unlink(public_path('images/categories/' . $category->logo));
+            }
 
             $logo = $request->file('logo');
             $logoName = time() . '.' . $logo->getClientOriginalExtension();
@@ -114,11 +135,13 @@ class CategoryController extends Controller
             $category->update([
                 'logo' => $logoName,
                 'name' => $request->name,
+                'slug' => Str::slug($request->name),
                 'description' => $request->description,
             ]);
         } else {
             $category->update([
                 'name' => $request->name,
+                'slug' => Str::slug($request->name),
                 'description' => $request->description,
             ]);
         }
@@ -131,6 +154,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        // delete category and delete logo from images/categories
+        unlink(public_path('images/categories/' . $category->logo));
+        $category->forceDelete();
+
+        return to_route('categories.index');
     }
 }
