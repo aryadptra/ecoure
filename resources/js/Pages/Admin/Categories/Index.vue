@@ -1,11 +1,10 @@
 <template>
     <DashboardLayout>
-        <DashboardSidebar />
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <DashboardTitle title="Categories" />
+        <PageTitle title="Categories" />
+        <Breadcrumb :items="bradcrumbs" :currentPage="currentPage" />
 
-            <!-- Button add data and search data -->
-            <!-- <div class="d-flex justify-content-between mb-3">
+        <!-- Button add data and search data -->
+        <!-- <div class="d-flex justify-content-between mb-3">
                 <div class="input-group">
                     <input
                         type="text"
@@ -34,367 +33,346 @@
                 </div>
             </div> -->
 
-            <div class="row">
-                <div class="col-8 col-md-8">
-                    <form @submit.prevent="handleSearch">
-                        <div class="input-group mb-3">
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Categories name"
-                                aria-label="Categories name"
-                                aria-describedby="basic-addon2"
-                                v-model="search"
-                            />
-                            <button
-                                class="btn btn-outline-secondary"
-                                type="submit"
-                                id="basic-addon2"
-                            >
-                                Search
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-4 col-md-4">
-                    <div class="d-flex justify-content-end">
+        <div class="row">
+            <div class="col-8 col-md-8">
+                <form @submit.prevent="handleSearch">
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Categories name"
+                            aria-label="Categories name"
+                            aria-describedby="basic-addon2"
+                            v-model="search"
+                        />
                         <button
-                            type="button"
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
+                            class="btn btn-outline-secondary"
+                            type="submit"
+                            id="basic-addon2"
                         >
-                            Add Category
+                            Search
                         </button>
                     </div>
+                </form>
+            </div>
+            <div class="col-4 col-md-4">
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                    >
+                        Add Category
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <!-- Table -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Logo</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
+        <!-- Table -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Logo</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
 
-                            <tbody>
-                                <tr
-                                    v-for="(category, index) in categories.data"
-                                    :key="index"
-                                >
-                                    <th scope="row">
-                                        {{
-                                            ++index +
-                                            (categories.current_page - 1) *
-                                                categories.per_page
-                                        }}
-                                    </th>
-                                    <td>
-                                        <!-- Img -->
-                                        <img
-                                            :src="`/images/categories/${category.logo}`"
-                                            class="rounded"
-                                            width="50"
-                                            height="50"
-                                        />
-                                    </td>
-                                    <td>{{ category.name }}</td>
-                                    <td>{{ category.description }}</td>
-                                    <td>
-                                        <div
-                                            class="btn-group"
-                                            role="group"
-                                            aria-label="Basic example"
+                        <tbody>
+                            <tr
+                                v-for="(category, index) in categories.data"
+                                :key="index"
+                            >
+                                <th scope="row">
+                                    {{
+                                        ++index +
+                                        (categories.current_page - 1) *
+                                            categories.per_page
+                                    }}
+                                </th>
+                                <td>
+                                    <!-- Img -->
+                                    <img
+                                        :src="`/images/categories/${category.logo}`"
+                                        class="rounded"
+                                        width="50"
+                                        height="50"
+                                    />
+                                </td>
+                                <td>{{ category.name }}</td>
+                                <td>{{ category.description }}</td>
+                                <td>
+                                    <div
+                                        class="btn-group"
+                                        role="group"
+                                        aria-label="Basic example"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalEdit"
+                                            @click="editCategory(category)"
                                         >
-                                            <button
-                                                type="button"
-                                                class="btn btn-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModalEdit"
-                                                @click="editCategory(category)"
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                fill="currentColor"
+                                                class="bi bi-pencil"
+                                                viewBox="0 0 16 16"
                                             >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="16"
-                                                    height="16"
-                                                    fill="currentColor"
-                                                    class="bi bi-pencil"
-                                                    viewBox="0 0 16 16"
-                                                >
-                                                    <path
-                                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
-                                                    />
-                                                </svg>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-danger"
-                                                @click="
-                                                    deleteCategory(category.id)
-                                                "
+                                                <path
+                                                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                                                />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-danger"
+                                            @click="deleteCategory(category.id)"
+                                        >
+                                            <!-- icon trash -->
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                fill="currentColor"
+                                                class="bi bi-trash"
+                                                viewBox="0 0 16 16"
                                             >
-                                                <!-- icon trash -->
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="16"
-                                                    height="16"
-                                                    fill="currentColor"
-                                                    class="bi bi-trash"
-                                                    viewBox="0 0 16 16"
-                                                >
-                                                    <path
-                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"
-                                                    />
-                                                    <path
-                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                                <path
+                                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"
+                                                />
+                                                <path
+                                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <Pagination :links="categories.links" align="end" />
+            </div>
+        </div>
+
+        <!-- Modal Add -->
+        <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <form @submit.prevent="submit">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Add Category
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name" class="form-label"
+                                    >Name</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    aria-describedby="emailHelp"
+                                    v-model="form.name"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div v-if="errors.name" class="alert alert-danger">
+                                {{ errors.name }}
+                            </div>
+                            <!-- Logo -->
+                            <div class="mb-3">
+                                <label for="logo">Logo</label>
+                                <!-- Input File With Inertia -->
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    id="logo"
+                                    ref="logo"
+                                    @input="form.logo = $event.target.files[0]"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div v-if="errors.logo" class="alert alert-danger">
+                                {{ errors.logo }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label"
+                                    >Description</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="description"
+                                    aria-describedby="emailHelp"
+                                    v-model="form.description"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div
+                                v-if="errors.description"
+                                class="alert alert-danger"
+                            >
+                                {{ errors.description }}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                                id="btn-close-modal"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="submit"
+                                id="btn-save"
+                                class="btn btn-primary"
+                            >
+                                Add
+                            </button>
+                        </div>
                     </div>
-                    <DashboardPagination
-                        :links="categories.links"
-                        align="end"
-                    />
-                </div>
+                </form>
             </div>
+        </div>
 
-            <!-- Modal Add -->
-            <div
-                class="modal fade"
-                id="exampleModal"
-                tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog">
-                    <form @submit.prevent="submit">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">
-                                    Add Category
-                                </h5>
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                ></button>
+        <!-- Modal Edit -->
+        <div
+            class="modal fade"
+            id="exampleModalEdit"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog">
+                <form @submit.prevent="submitEdit">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Edit Category
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name" class="form-label"
+                                    >Name</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    aria-describedby="emailHelp"
+                                    v-model="formEdit.name"
+                                />
                             </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label"
-                                        >Name</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="name"
-                                        aria-describedby="emailHelp"
-                                        v-model="form.name"
-                                    />
-                                </div>
-                                <!-- Errors -->
-                                <div
-                                    v-if="errors.name"
-                                    class="alert alert-danger"
-                                >
-                                    {{ errors.name }}
-                                </div>
-                                <!-- Logo -->
-                                <div class="mb-3">
-                                    <label for="logo">Logo</label>
-                                    <!-- Input File With Inertia -->
-                                    <input
-                                        type="file"
-                                        class="form-control"
-                                        id="logo"
-                                        ref="logo"
-                                        @input="
-                                            form.logo = $event.target.files[0]
-                                        "
-                                    />
-                                </div>
-                                <!-- Errors -->
-                                <div
-                                    v-if="errors.logo"
-                                    class="alert alert-danger"
-                                >
-                                    {{ errors.logo }}
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label"
-                                        >Description</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="description"
-                                        aria-describedby="emailHelp"
-                                        v-model="form.description"
-                                    />
-                                </div>
-                                <!-- Errors -->
-                                <div
-                                    v-if="errors.description"
-                                    class="alert alert-danger"
-                                >
-                                    {{ errors.description }}
-                                </div>
+                            <!-- Errors -->
+                            <div v-if="errors.name" class="alert alert-danger">
+                                {{ errors.name }}
                             </div>
-                            <div class="modal-footer">
-                                <button
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                    id="btn-close-modal"
+                            <!-- Logo -->
+                            <div class="mb-3">
+                                <label for="logo">Logo</label>
+                                <!-- Input File With Inertia -->
+                                <input
+                                    type="file"
+                                    class="form-control"
+                                    id="logo"
+                                    ref="logo"
+                                    @input="
+                                        formEdit.logo = $event.target.files[0]
+                                    "
+                                />
+                                <small class="text-danger"
+                                    >*Blank if cannot be update</small
                                 >
-                                    Close
-                                </button>
-                                <button
-                                    type="submit"
-                                    id="btn-save"
-                                    class="btn btn-primary"
+                            </div>
+                            <!-- Errors -->
+                            <div v-if="errors.logo" class="alert alert-danger">
+                                {{ errors.logo }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label"
+                                    >Description</label
                                 >
-                                    Add
-                                </button>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="description"
+                                    aria-describedby="emailHelp"
+                                    v-model="formEdit.description"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div
+                                v-if="errors.description"
+                                class="alert alert-danger"
+                            >
+                                {{ errors.description }}
                             </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Modal Edit -->
-            <div
-                class="modal fade"
-                id="exampleModalEdit"
-                tabindex="-1"
-                aria-labelledby="exampleModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog">
-                    <form @submit.prevent="submitEdit">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">
-                                    Edit Category
-                                </h5>
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    data-bs-dismiss="modal"
-                                    aria-label="Close"
-                                ></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label"
-                                        >Name</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="name"
-                                        aria-describedby="emailHelp"
-                                        v-model="formEdit.name"
-                                    />
-                                </div>
-                                <!-- Errors -->
-                                <div
-                                    v-if="errors.name"
-                                    class="alert alert-danger"
-                                >
-                                    {{ errors.name }}
-                                </div>
-                                <!-- Logo -->
-                                <div class="mb-3">
-                                    <label for="logo">Logo</label>
-                                    <!-- Input File With Inertia -->
-                                    <input
-                                        type="file"
-                                        class="form-control"
-                                        id="logo"
-                                        ref="logo"
-                                        @input="
-                                            formEdit.logo =
-                                                $event.target.files[0]
-                                        "
-                                    />
-                                    <small class="text-danger"
-                                        >*Blank if cannot be update</small
-                                    >
-                                </div>
-                                <!-- Errors -->
-                                <div
-                                    v-if="errors.logo"
-                                    class="alert alert-danger"
-                                >
-                                    {{ errors.logo }}
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label"
-                                        >Description</label
-                                    >
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        id="description"
-                                        aria-describedby="emailHelp"
-                                        v-model="formEdit.description"
-                                    />
-                                </div>
-                                <!-- Errors -->
-                                <div
-                                    v-if="errors.description"
-                                    class="alert alert-danger"
-                                >
-                                    {{ errors.description }}
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    data-bs-dismiss="modal"
-                                    id="btn-close-modal-edit"
-                                >
-                                    Close
-                                </button>
-                                <button
-                                    type="submit"
-                                    id="btn-update"
-                                    class="btn btn-primary"
-                                >
-                                    Update
-                                </button>
-                            </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                                id="btn-close-modal-edit"
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="submit"
+                                id="btn-update"
+                                class="btn btn-primary"
+                            >
+                                Update
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-        </main>
+        </div>
     </DashboardLayout>
 </template>
 
 <script>
 import { Link, Head, router } from "@inertiajs/vue3";
 import { reactive, ref } from "vue";
-import DashboardLayout from "../../../Layouts/DashboardLayout.vue";
-import DashboardSidebar from "../../../Components/DashboardSidebar.vue";
-import DashboardTitle from "../../../Components/DashboardTitle.vue";
-import DashboardPagination from "../../../Components/DashboardPagination.vue";
+import DashboardLayout from "@/Layouts/DashboardLayout.vue";
+import PageTitle from "@/Components/Admin/PageTitle.vue";
+import Breadcrumb from "@/Components/Admin/Breadcrumb.vue";
+import Pagination from "@/Components/Admin/Pagination.vue";
 import Swal from "sweetalert2";
 
 export default {
@@ -402,13 +380,24 @@ export default {
         Link,
         Head,
         DashboardLayout,
-        DashboardTitle,
-        DashboardSidebar,
-        DashboardPagination,
+        PageTitle,
+        Breadcrumb,
+        Pagination,
     },
     props: {
         categories: Object,
         errors: Object,
+    },
+    data() {
+        return {
+            bradcrumbs: [
+                {
+                    label: "Admin",
+                    url: route("dashboard"),
+                },
+            ],
+            currentPage: "Categories",
+        };
     },
     setup() {
         //define state search

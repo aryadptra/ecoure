@@ -14,6 +14,10 @@ export default {
         Head,
         Navbar,
     },
+    mounted() {
+        // Menambahkan kelas 'bg-body-tertiary' pada elemen <body>
+        document.body.classList.add("bg-body-tertiary");
+    },
 };
 </script>
 
