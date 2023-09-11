@@ -164,6 +164,10 @@
                             </tbody>
                         </table>
                     </div>
+                    <DashboardPagination
+                        :links="categories.links"
+                        align="end"
+                    />
                 </div>
             </div>
 
@@ -390,6 +394,7 @@ import { reactive, ref } from "vue";
 import DashboardLayout from "../../../Layouts/DashboardLayout.vue";
 import DashboardSidebar from "../../../Components/DashboardSidebar.vue";
 import DashboardTitle from "../../../Components/DashboardTitle.vue";
+import DashboardPagination from "../../../Components/DashboardPagination.vue";
 import Swal from "sweetalert2";
 
 export default {
@@ -399,6 +404,7 @@ export default {
         DashboardLayout,
         DashboardTitle,
         DashboardSidebar,
+        DashboardPagination,
     },
     props: {
         categories: Object,
