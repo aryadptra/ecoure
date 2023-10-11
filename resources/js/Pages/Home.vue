@@ -49,7 +49,7 @@
             </div>
             <div class="album py-5 bg-body-tertiary">
                 <div class="container">
-                    <h2 class="mb-3">
+                    <h2 class="mb-5">
                         <i class="bi bi-journal-richtext"></i>E-Book Terbaru
                     </h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
