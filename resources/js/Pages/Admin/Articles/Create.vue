@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-header">Add Article</div>
                     <div class="card-body">
-                        <form action="">
+                        <form @submit.prevent="submit">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -43,7 +43,7 @@
                                             type="text"
                                             class="form-control"
                                             id="name"
-                                            placeholder="Laravel installation"
+                                            placeholder=""
                                             v-model="form.name"
                                         />
                                     </div>
@@ -101,6 +101,17 @@
                                           bullist numlist outdent indent | removeformat | help',
                                             }"
                                         />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="d-flex justify-content-end">
+                                        <button
+                                            type="submit"
+                                            class="btn btn-primary"
+                                            id="btn-save"
+                                        >
+                                            Simpan
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -170,44 +181,24 @@ export default {
         const submit = () => {
             // Disable button #btn-save and change text to saving...
             document.getElementById("btn-save").disabled = true;
-            document.getElementById("btn-save").innerHTML = "Saving...";
+            document.getElementById("btn-save").innerHTML = "Menyimpan...";
 
             router.post(
-                route("courses.store"),
+                route("articles.store"),
                 {
-                    category_id: form.category_id,
+                    course_id: form.course_id,
                     name: form.name,
-                    description: form.description,
-                    thumbnail: form.thumbnail,
-                    demo: form.demo,
-                    discount: form.discount,
-                    price: form.price,
+                    episode: form.episode,
+                    content: form.content,
+                    status: form.status,
                 },
                 {
                     // forceFormData: true,
                     onSuccess: () => {
-                        // reset form
-                        form.category_id = "";
-                        form.name = "";
-                        form.description = "";
-                        form.thumbnail = "";
-                        form.demo = "";
-                        form.discount = "";
-                        form.price = "";
-
-                        document.getElementById("thumbnail").value = "";
-
-                        // enable #btn-save
-                        document.getElementById("btn-save").disabled = false;
-                        document.getElementById("btn-save").innerHTML = "Save";
-
-                        // click button close modal
-                        document.getElementById("btn-close-modal").click();
-
                         Swal.fire({
                             icon: "success",
                             title: "Success!",
-                            text: "Course Added Successfully!",
+                            text: "Article Added Successfully!",
                             showConfirmButton: false,
                             timer: 1500,
                         });
@@ -215,10 +206,8 @@ export default {
                     onError: () => {
                         // enable #btn-save
                         document.getElementById("btn-save").disabled = false;
-                        document.getElementById("btn-save").innerHTML = "Add";
-
-                        console.log("Masih ada error");
-                        console.log(form);
+                        document.getElementById("btn-save").innerHTML =
+                            "Simpan";
                     },
                 }
             );
@@ -226,6 +215,7 @@ export default {
 
         return {
             form,
+            submit,
         };
     },
 };

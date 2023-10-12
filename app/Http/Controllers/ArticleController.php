@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ArticleController extends Controller
@@ -36,7 +37,7 @@ class ArticleController extends Controller
 
         $request->validate([
             'course_id' => ['required'],
-            'episode' => ['required', 'number', 'max:255'], // Menambahkan validasi untuk 'demo'
+            'episode' => ['required', 'integer', 'max:255'], // Menambahkan validasi untuk 'demo'
             'name' => ['required', 'string', 'max:255'],
             'content' => ['required'],
             'status' => ['required', 'string'], // Menambahkan validasi untuk 'discount'
@@ -47,21 +48,20 @@ class ArticleController extends Controller
             'name.string' => 'The name must be a string.',
             'name.max' => 'The name may not be greater than 255 characters.',
             'content.required' => 'The description field is required.',
-            'content.required' => 'The content field is required.', // Pesan untuk 'content'
             'status.required' => 'The discount field is required.', // Pesan untuk 'discount'
         ]);
 
 
         Article::create([
             'course_id' => $request->course_id,
-            'episode' => $request->price,
+            'episode' => $request->episode,
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'content' => $request->content,
             'status' => $request->status,
         ]);
 
-        return to_route('courses.detail', ['course_id' => $request->course_id]);
+        return to_route('courses.detail', ['id' => $request->course_id]);
     }
 
     /**
