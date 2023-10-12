@@ -50,40 +50,43 @@
             <div class="album py-5 bg-body-tertiary">
                 <div class="container">
                     <h2 class="mb-5">
-                        <i class="bi bi-journal-richtext"></i>E-Book Terbaru
+                        <i class="bi bi-journal-richtext"></i>Newest Course
                     </h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                        <div class="col">
+                        <div
+                            class="col"
+                            v-for="(course, index) in courses"
+                            :key="index"
+                        >
                             <div class="card shadow-md">
                                 <img
-                                    src="/assets/img/heroes.png"
+                                    :src="'images/courses/' + course.thumbnail"
                                     class="card-img-top"
-                                    alt="Thumbnail"
+                                    :alt="course.name"
                                 />
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        E-Commerce Laravel 10, Inertia dan VueJS
-                                        3
+                                        {{ course.name }}
                                     </h5>
-                                    <p class="card-text">
-                                        Belajar membuat aplikasi
-                                        <i>e-commerce</i> dengan Laravel 10,
-                                        Inertia dan VueJS 3 yang terintegrasi
-                                        <i>payment gateway</i> Midtrans.
-                                    </p>
+                                    <div
+                                        class="card-text"
+                                        v-html="course.description"
+                                    ></div>
                                     <div
                                         class="d-flex justify-content-between align-items-center"
                                     >
                                         <div class="btn-group">
                                             <a
-                                                href="#"
+                                                :href="'/buy/' + course.id"
                                                 type="button"
                                                 class="btn btn-sm btn-outline-primary"
                                             >
                                                 Beli Sekarang
                                             </a>
                                         </div>
-                                        <p class="text-black">Rp. 125.000</p>
+                                        <p class="text-black">
+                                            {{ formatRupiah(course.price) }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -121,148 +124,6 @@
                     </div>
                 </div>
             </section>
-            <div class="container">
-                <footer
-                    class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top"
-                >
-                    <div class="col mb-3">
-                        <a
-                            href="/"
-                            class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none"
-                        >
-                            <svg class="bi me-2" width="40" height="32">
-                                <use xlink:href="#bootstrap"></use>
-                            </svg>
-                        </a>
-                        <p class="text-body-secondary">© 2023</p>
-                    </div>
-
-                    <div class="col mb-3"></div>
-
-                    <div class="col mb-3">
-                        <h5>Section</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Home</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Features</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Pricing</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >FAQs</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >About</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col mb-3">
-                        <h5>Section</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Home</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Features</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Pricing</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >FAQs</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >About</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="col mb-3">
-                        <h5>Section</h5>
-                        <ul class="nav flex-column">
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Home</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Features</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >Pricing</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >FAQs</a
-                                >
-                            </li>
-                            <li class="nav-item mb-2">
-                                <a
-                                    href="#"
-                                    class="nav-link p-0 text-body-secondary"
-                                    >About</a
-                                >
-                            </li>
-                        </ul>
-                    </div>
-                </footer>
-            </div>
         </section>
     </AppLayout>
 </template>
@@ -276,6 +137,9 @@ export default {
     components: {
         Head,
         Link,
+    },
+    props: {
+        courses: Object,
     },
 };
 </script>

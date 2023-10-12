@@ -2,17 +2,20 @@
     <Head title="Dashboard" />
     <Navbar />
     <slot />
+    <Footer />
 </template>
 
 <script>
 import { Link, Head } from "@inertiajs/vue3";
 import Navbar from "@/Components/Navbar.vue";
+import Footer from "@/Components/Footer.vue";
 
 export default {
     components: {
         Link,
         Head,
         Navbar,
+        Footer,
     },
     mounted() {
         // Menambahkan kelas 'bg-body-tertiary' pada elemen <body>

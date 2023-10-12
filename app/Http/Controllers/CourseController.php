@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Category;
 use App\Models\Course;
 use Illuminate\Http\Request;
@@ -185,5 +186,18 @@ class CourseController extends Controller
         $course->forceDelete();
 
         return redirect()->route('courses.index');
+    }
+
+    /**
+     * Detail data
+     * @param Course $course
+     */
+    public function detail(Course $course)
+    {
+        $articles = Article::where('course_id', $course->id)->get();
+
+        return Inertia::render('Admin/Courses/Detail', [
+            'articles' => $articles,
+        ]);
     }
 }

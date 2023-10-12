@@ -102,7 +102,14 @@
                                     }}
                                 </th>
                                 <td>{{ course.category.name }}</td>
-                                <td>{{ course.name }}</td>
+                                <td>
+                                    <Link
+                                        :href="
+                                            route('courses.detail', course.id)
+                                        "
+                                        >{{ course.name }}</Link
+                                    >
+                                </td>
                                 <td>{{ course.slug }}</td>
                                 <td>{{ course.description }}</td>
                                 <td>
