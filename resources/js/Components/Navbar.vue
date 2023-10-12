@@ -20,17 +20,17 @@
                             class="nav-link active"
                             aria-current="page"
                             href="#"
-                            >Home</Link
+                            >Beranda</Link
                         >
                     </li>
                     <li class="nav-item">
-                        <Link class="nav-link" href="#">About</Link>
+                        <Link class="nav-link" href="#">Kursus</Link>
                     </li>
                     <li class="nav-item">
-                        <Link class="nav-link" href="#">Services</Link>
+                        <Link class="nav-link" href="#">Tentang</Link>
                     </li>
                     <li class="nav-item">
-                        <Link class="nav-link" href="#">Contact</Link>
+                        <Link class="nav-link" href="#">Kontak </Link>
                     </li>
                 </ul>
                 <div class="d-flex">
@@ -69,13 +69,13 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="#"
-                                        >Settings</a
+                                        >Pengaturan</a
                                     >
                                 </li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li>
                                     <a class="dropdown-item" href="#"
-                                        >Sign Out</a
+                                        >Log Out</a
                                     >
                                 </li>
                             </ul>

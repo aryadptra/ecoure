@@ -20,13 +20,12 @@
                         <h1
                             class="display-5 fw-bold text-body-emphasis lh-1 mb-3"
                         >
-                            Belajar dengan mengikuti tutorial
-                            <i>premium</i>
+                            Belajar dengan mengikuti kursus premium
                         </h1>
                         <p class="lead">
                             Kuasai ilmu mendalam seperti Laravel, MySQL,
-                            JavaScript, VueJS dan lain-lain untuk menjadi
-                            <b><i>Software Engineer</i></b> yang handal.
+                            JavaScript, VueJS dan lainnya untuk menjadi
+                            programmer yang handal
                         </p>
                         <div
                             class="d-grid gap-2 d-md-flex justify-content-md-start"
@@ -35,7 +34,7 @@
                                 href="#"
                                 class="btn btn-primary btn-lg px-4 me-md-2"
                             >
-                                Temukan <i>E-Book</i>
+                                Temukan Kursus
                             </a>
                             <a
                                 href="#"
@@ -50,7 +49,7 @@
             <div class="album py-5 bg-body-tertiary">
                 <div class="container">
                     <h2 class="mb-5">
-                        <i class="bi bi-journal-richtext"></i>Newest Course
+                        <i class="bi bi-journal-richtext"></i>Kursus Terbaru
                     </h2>
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                         <div
@@ -111,7 +110,7 @@
                         <p class="col-lg-8 mx-auto fs-5 text-muted">
                             Kuasai ilmu mendalam seperti Laravel, MySQL,
                             JavaScript, VueJS dan lain-lain untuk menjadi
-                            <b><i>Software Engineer</i></b>
+                            programmer yang handal
                         </p>
                         <div class="d-inline-flex gap-2 mb-5">
                             <button
