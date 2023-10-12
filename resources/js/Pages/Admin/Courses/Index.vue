@@ -128,7 +128,7 @@
                                             class="btn btn-primary"
                                             data-bs-toggle="modal"
                                             data-bs-target="#exampleModalEdit"
-                                            @click="editCategory(course)"
+                                            @click="editCourse(course)"
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@
                                         <button
                                             type="button"
                                             class="btn btn-danger"
-                                            @click="deleteCategory(course.id)"
+                                            @click="deleteCourse(course.id)"
                                         >
                                             <!-- icon trash -->
                                             <svg
@@ -267,12 +267,22 @@
                                 <label for="description" class="form-label"
                                     >Description</label
                                 >
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="description"
-                                    aria-describedby="emailHelp"
+                                <Editor
+                                    api-key="zqavphvts8k9aaq6jfmx4sez043hq2uezgnuhi3pl9t2iar6"
                                     v-model="form.description"
+                                    :init="{
+                                        height: 500,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist autolink lists link image charmap print preview anchor',
+                                            'searchreplace visualblocks code fullscreen',
+                                            'insertdatetime media table paste code help wordcount',
+                                        ],
+                                        toolbar:
+                                            'undo redo | formatselect | bold italic backcolor | \
+                                          alignleft aligncenter alignright alignjustify | \
+                                          bullist numlist outdent indent | removeformat | help',
+                                    }"
                                 />
                             </div>
                             <!-- Errors -->
@@ -372,7 +382,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Edit Category
+                                Edit Course
                             </h5>
                             <button
                                 type="button"
@@ -382,6 +392,29 @@
                             ></button>
                         </div>
                         <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="category_id"
+                                    >Category</label
+                                >
+                                <select
+                                    class="form-control"
+                                    name="category_id"
+                                    id="category_id"
+                                    v-model="formEdit.category_id"
+                                >
+                                    <option
+                                        v-for="category in categories"
+                                        :key="category.id"
+                                        :value="category.id"
+                                        :selected="
+                                            category.id === formEdit.category_id
+                                        "
+                                    >
+                                        {{ category.name }}
+                                    </option>
+                                </select>
+                            </div>
+
                             <div class="mb-3">
                                 <label for="name" class="form-label"
                                     >Name</label
@@ -423,12 +456,22 @@
                                 <label for="description" class="form-label"
                                     >Description</label
                                 >
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="description"
-                                    aria-describedby="emailHelp"
+                                <Editor
+                                    api-key="zqavphvts8k9aaq6jfmx4sez043hq2uezgnuhi3pl9t2iar6"
                                     v-model="formEdit.description"
+                                    :init="{
+                                        height: 500,
+                                        menubar: false,
+                                        plugins: [
+                                            'advlist autolink lists link image charmap print preview anchor',
+                                            'searchreplace visualblocks code fullscreen',
+                                            'insertdatetime media table paste code help wordcount',
+                                        ],
+                                        toolbar:
+                                            'undo redo | formatselect | bold italic backcolor | \
+                                          alignleft aligncenter alignright alignjustify | \
+                                          bullist numlist outdent indent | removeformat | help',
+                                    }"
                                 />
                             </div>
                             <!-- Errors -->
@@ -437,6 +480,60 @@
                                 class="alert alert-danger"
                             >
                                 {{ errors.description }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="demo" class="form-label"
+                                    >Demo</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="demo"
+                                    aria-describedby="emailHelp"
+                                    v-model="formEdit.demo"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div v-if="errors.demo" class="alert alert-danger">
+                                {{ errors.demo }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="discoubt" class="form-label"
+                                    >Discount</label
+                                >
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="discount"
+                                    aria-describedby="emailHelp"
+                                    v-model="formEdit.discount"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div
+                                v-if="errors.discount"
+                                class="alert alert-danger"
+                            >
+                                {{ errors.discount }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="price" class="form-label"
+                                    >Price</label
+                                >
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="price"
+                                    aria-describedby="emailHelp"
+                                    v-model="formEdit.price"
+                                />
+                            </div>
+                            <!-- Errors -->
+                            <div v-if="errors.price" class="alert alert-danger">
+                                {{ errors.price }}
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -471,6 +568,7 @@ import PageTitle from "@/Components/Admin/PageTitle.vue";
 import Breadcrumb from "@/Components/Admin/Breadcrumb.vue";
 import Pagination from "@/Components/Admin/Pagination.vue";
 import Swal from "sweetalert2";
+import Editor from "@tinymce/tinymce-vue";
 
 export default {
     components: {
@@ -480,6 +578,7 @@ export default {
         PageTitle,
         Breadcrumb,
         Pagination,
+        Editor,
     },
     props: {
         courses: Object,
@@ -589,7 +688,7 @@ export default {
         };
 
         // delete category
-        const deleteCategory = (id) => {
+        const deleteCourse = (id) => {
             Swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -606,17 +705,22 @@ export default {
                         "Your file has been deleted.",
                         "success"
                     );
-                    router.delete(route("categories.destroy", id));
+                    router.delete(route("courses.destroy", id));
                 }
             });
         };
 
         // editCategory
-        const editCategory = (category) => {
-            formEdit.id = category.id;
-            formEdit.name = category.name;
-            formEdit.description = category.description;
-            formEdit.logo = category.logo;
+        const editCourse = (course) => {
+            formEdit.category_id = course.category_id;
+            formEdit.id = course.id;
+            formEdit.name = course.name;
+            formEdit.description = course.description;
+            formEdit.thumbnail = course.thumbnail;
+            formEdit.demo = course.demo;
+            formEdit.price = course.price;
+            formEdit.discount = course.discount;
+            formEdit.description = course.description;
         };
 
         // submitEdit
@@ -627,19 +731,28 @@ export default {
             document.getElementById("btn-update").innerHTML = "Updating...";
 
             router.put(
-                route("categories.update", formEdit.id),
+                route("courses.update", formEdit.id),
                 {
+                    category_id: formEdit.category_id,
                     name: formEdit.name,
                     description: formEdit.description,
-                    logo: formEdit.logo,
+                    thumbnail: formEdit.thumbnail,
+                    demo: formEdit.demo,
+                    discount: formEdit.discount,
+                    price: formEdit.price,
                 },
                 {
                     // forceFormData: true,
                     onSuccess: () => {
                         // reset form
-                        formEdit.name = "";
-                        formEdit.description = "";
-                        formEdit.logo = "";
+                        form.category_id = "";
+                        form.name = "";
+                        form.description = "";
+                        form.thumbnail = "";
+                        form.demo = "";
+                        form.discount = "";
+                        form.price = "";
+
                         document.getElementById("logo").value = "";
 
                         // enable #btn-update
@@ -664,6 +777,7 @@ export default {
                         document.getElementById("btn-update").innerHTML =
                             "Update";
 
+                        console.log(formEdit);
                         console.log("Masih ada error");
                     },
                 }
@@ -676,9 +790,9 @@ export default {
             handleSearch,
             search,
             formEdit,
-            editCategory,
+            editCourse,
             submitEdit,
-            deleteCategory,
+            deleteCourse,
         };
     },
 };
